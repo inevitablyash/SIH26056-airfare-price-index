@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>India Airfare Price Index</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<header class="hero">
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+
+        <div class="brand-row">
+
+            <div class="brand-plane">
+                ✈
+            </div>
+
+            <div>
+
+                <div class="brand-title">
+                    Airfare Price Index
+                </div>
+
+                <div class="brand-country">
+                    India
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-text">
+
+            <h1>
+                Real-time airfare trends,<br>
+                now with a fairness score.
+            </h1>
+
+            <p>
+                Know if a fare is unusually high or low —
+                at a glance.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-date">
+
+        <span>▣</span>
+
+        <span>
+            Data as of <strong id="dataAsOf">--</strong>
+        </span>
+
+    </div>
+
+    <div class="hero-wave"></div>
+
+</header>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="dashboard">
+
+
+    <!-- =====================================================
+         TOP INDEX SECTION
+    ====================================================== -->
+
+    <section class="top-grid">
+
+
+        <!-- AIRFARE INDEX -->
+
+        <div class="index-panel">
+
+            <div class="index-watermark">
+                ✈
+            </div>
+
+            <div class="panel-icon blue">
+                ✈
+            </div>
+
+            <div class="panel-content">
+
+                <div class="small-title">
+                    AIRFARE PRICE INDEX
+                </div>
+
+                <div class="index-row">
+
+                    <div
+                        id="currentIndex"
+                        class="big-index"
+                    >
+                        --
+                    </div>
+
+                    <div
+                        id="indexChange"
+                        class="index-change"
+                    >
+                        --
+                    </div>
+
+                </div>
+
+                <div class="base-text">
+                    vs. base period (100)
+                </div>
+
+                <div class="base-period">
+                    Base period: <span id="baseDate">--</span>
+                </div>
+
+            </div>
+
+
+            <div class="index-message">
+
+                <span class="trend-icon">
+                    ↗
+                </span>
+
+                <span id="indexMessage">
+                    Loading airfare movement...
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- FAIRNESS SCORE -->
+
+        <div class="fairness-panel">
+
+            <div class="panel-icon green">
+                ★
+            </div>
+
+            <div class="fairness-content">
+
+                <div class="small-title">
+                    FAIRNESS SCORE
+                </div>
+
+                <div class="fairness-row">
+
+                    <span
+                        id="fairnessScore"
+                        class="fairness-number"
+                    >
+                        --
+                    </span>
+
+                    <span class="out-of">
+                        / 100
+                    </span>
+
+                    <span
+                        id="fairnessStatus"
+                        class="fairness-badge"
+                    >
+                        Calculating
+                    </span>
+
+                </div>
+
+                <p id="fairnessText">
+                    Comparing current fares with
+                    typical observed fares.
+                </p>
+
+            </div>
+
+
+            <div class="fairness-note">
+
+                <span>💡</span>
+
+                <span>
+                    A higher score means the fare is closer
+                    to the typical price range. Lower scores
+                    indicate unusual pricing.
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         KPI CARDS
+    ====================================================== -->
+
+    <section class="kpi-grid">
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-icon blue-icon">
+                ✈
+            </div>
+
+            <div>
+
+                <div class="kpi-title">
+                    Total Flights Tracked
+                </div>
+
+                <div
+                    id="totalFlights"
+                    class="kpi-value"
+                >
+                    --
+                </div>
+
+                <div class="kpi-sub">
+                    observations
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-icon purple-icon">
+                ●
+            </div>
+
+            <div>
+
+                <div class="kpi-title">
+                    Routes Covered
+                </div>
+
+                <div
+                    id="totalRoutes"
+                    class="kpi-value"
+                >
+                    --
+                </div>
+
+                <div class="kpi-sub">
+                    domestic routes
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-icon green-icon">
+                ✈
+            </div>
+
+            <div>
+
+                <div class="kpi-title">
+                    Airlines
+                </div>
+
+                <div
+                    id="totalAirlines"
+                    class="kpi-value"
+                >
+                    --
+                </div>
+
+                <div
+                    id="airlineNames"
+                    class="kpi-sub"
+                >
+                    tracked airlines
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-icon orange-icon">
+                !
+            </div>
+
+            <div>
+
+                <div class="kpi-title">
+                    Anomalies Detected
+                </div>
+
+                <div
+                    id="anomalyCount"
+                    class="kpi-value"
+                >
+                    --
+                </div>
+
+                <div class="kpi-sub">
+                    current sample
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         ROUTE FAIRNESS
+    ====================================================== -->
+
+    <section class="section-card">
+
+        <div class="section-heading">
+
+            <div class="section-heading-left">
+
+                <div class="section-round-icon">
+                    ●
+                </div>
+
+                <div>
+
+                    <h2>
+                        Route-wise Fare Fairness
+                    </h2>
+
+                    <p>
+                        Each route shows the current fare,
+                        typical fare and a fairness score
+                        to help identify unusually high or
+                        low prices.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="window-selector">
+
+                <button
+                    class="window-btn"
+                    data-window="1"
+                >
+                    1 Day
+                </button>
+
+                <button
+                    class="window-btn active"
+                    data-window="7"
+                >
+                    7 Days
+                </button>
+
+                <button
+                    class="window-btn"
+                    data-window="15"
+                >
+                    15 Days
+                </button>
+
+                <button
+                    class="window-btn"
+                    data-window="30"
+                >
+                    30 Days
+                </button>
+
+                <button
+                    class="window-btn"
+                    data-window="45"
+                >
+                    45 Days
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ROUTE</th>
+
+                        <th>INDEX</th>
+
+                        <th>CURRENT FARE</th>
+
+                        <th>BASE FARE</th>
+
+                        <th>FAIRNESS</th>
+
+                        <th>STATUS</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="routeTable">
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="loading"
+                        >
+                            Loading route data...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CHARTS
+    ====================================================== -->
+
+    <section class="two-column">
+
+
+        <!-- FARE TREND -->
+
+        <div class="section-card chart-card">
+
+            <div class="chart-heading">
+
+                <div>
+
+                    <h2>
+                        Fare Trend
+                    </h2>
+
+                    <p>
+                        National Fisher Ideal Index
+                    </p>
+
+                </div>
+
+                <div class="legend">
+
+                    <span>
+                        <i class="dot current"></i>
+                        Current Index
+                    </span>
+
+                    <span>
+                        <i class="dot base"></i>
+                        Base = 100
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="chart-box">
+
+                <canvas id="indexChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+
+<!-- =========================================================
+     INDIA AIRFARE WEATHER
+========================================================= -->
+
+<div class="section-card airfare-weather-card">
+
+    <div class="weather-card-header">
+
+        <div class="weather-title-group">
+
+            <div class="weather-title-icon">
+                ✈
+            </div>
+
+            <div>
+                <h2>India Airfare Weather</h2>
+                <p>Current airfare market conditions</p>
+            </div>
+
+        </div>
+
+        <span
+            id="airfareWeatherStatus"
+            class="weather-status"
+        >
+            Loading...
+        </span>
+
+    </div>
+
+
+    <div class="weather-main">
+
+        <div
+            class="weather-icon"
+            id="airfareWeatherIcon"
+        >
+            🟢
+        </div>
+
+        <div class="weather-condition">
+
+            <div class="weather-label">
+                MARKET CONDITION
+            </div>
+
+            <div
+                id="airfareWeatherCondition"
+                class="weather-condition-text"
+            >
+                Stable Market
+            </div>
+
+            <div class="weather-description">
+                Airfare movement is relatively calm
+                across the tracked routes.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="weather-stats">
+
+        <div class="weather-stat">
+
+            <span class="weather-stat-label">
+                Average fare change
+            </span>
+
+            <strong id="weatherAverageChange">
+                +0.0%
+            </strong>
+
+        </div>
+
+
+        <div class="weather-stat">
+
+            <span class="weather-stat-label">
+                Volatility
+            </span>
+
+            <strong id="weatherVolatility">
+                Low
+            </strong>
+
+        </div>
+
+
+        <div class="weather-stat">
+
+            <span class="weather-stat-label">
+                Routes affected
+            </span>
+
+            <strong id="weatherRoutesAffected">
+                0
+            </strong>
+
+            <small>of tracked routes</small>
+
+        </div>
+
+
+        <div class="weather-stat">
+
+            <span class="weather-stat-label">
+                Anomalies detected
+            </span>
+
+            <strong id="weatherAnomalies">
+                0
+            </strong>
+
+            <small>unusual fares</small>
+
+        </div>
+
+    </div>
+
+</div>
+    <!-- =====================================================
+         LOWER ANALYTICS
+    ====================================================== -->
+
+    <section class="three-column">
+
+
+        <!-- BOOKING WINDOW -->
+
+        <div class="section-card chart-card">
+
+            <div class="chart-heading">
+
+                <div>
+
+                    <h2>
+                        Booking Window Effect
+                    </h2>
+
+                    <p>
+                        Average fare by advance purchase
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="chart-box small-chart">
+
+                <canvas
+                    id="windowChart"
+                ></canvas>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- LATEST FLIGHTS -->
+
+        <div class="section-card">
+
+            <div class="chart-heading">
+
+                <div>
+
+                    <h2>
+                        Latest Flight Data
+                    </h2>
+
+                    <p>
+                        Latest observations
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="latestFlights"
+                class="flight-list"
+            >
+
+                <div class="loading">
+                    Loading...
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ANOMALIES -->
+
+        <div class="section-card anomaly-card">
+
+            <div class="chart-heading">
+
+                <div>
+
+                    <h2>
+                        Recent Anomalies
+                    </h2>
+
+                    <p>
+                        Potentially unusual fares
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="anomalyList"
+                class="anomaly-list"
+            >
+
+                <div class="loading">
+                    Analyzing fares...
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         METHODOLOGY
+    ====================================================== -->
+
+    <section class="methodology">
+
+        <div>
+
+            <div class="small-title">
+                HOW THE INDEX WORKS
+            </div>
+
+            <h2>
+                From airfare observations to a national indicator.
+            </h2>
+
+            <p>
+                Individual airfare observations are normalized
+                and stored in the database. Route × booking-window
+                prices are aggregated using a Jevons geometric
+                mean, followed by weighted Laspeyres and Paasche
+                calculations. Their geometric mean forms the
+                Fisher Ideal Index.
+            </p>
+
+        </div>
+
+
+        <div class="method-flow">
+
+            <span>
+                Observations
+            </span>
+
+            <b>→</b>
+
+            <span>
+                Jevons
+            </span>
+
+            <b>→</b>
+
+            <span>
+                Price Relatives
+            </span>
+
+            <b>→</b>
+
+            <span>
+                Laspeyres
+            </span>
+
+            <b>→</b>
+
+            <span>
+                Paasche
+            </span>
+
+            <b>→</b>
+
+            <strong>
+                Fisher
+            </strong>
+
+        </div>
+
+    </section>
+
+
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    <span>
+        Airfare Price Index
+    </span>
+
+    <span>
+        India
+    </span>
+
+    <span class="footer-right">
+        SIH 2026 • Prototype analytical system
+    </span>
+
+</footer>
+
+
+
+<script src="app.js"></script>
+
+</body>
+
+</html>

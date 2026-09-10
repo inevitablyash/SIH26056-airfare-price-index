@@ -1,0 +1,1428 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --navy: #10264f;
+    --blue: #1677ed;
+    --blue-light: #eef7ff;
+    --purple: #7267e8;
+    --green: #12a579;
+    --orange: #ef9b27;
+    --red: #ef5b67;
+    --text: #172b50;
+    --muted: #71809a;
+    --border: #dce6f1;
+    --background: #f5f9fd;
+    --white: #ffffff;
+}
+
+body {
+    margin: 0;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    background: var(--background);
+    color: var(--text);
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    position: relative;
+    min-height: 270px;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 75% 20%,
+            rgba(255, 196, 142, 0.9),
+            transparent 28%
+        ),
+        linear-gradient(
+            115deg,
+            #092d70 0%,
+            #1763c1 48%,
+            #6b83ca 100%
+        );
+
+    color: white;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 82% 55%,
+            rgba(255, 255, 255, 0.22),
+            transparent 20%
+        );
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+
+    max-width: 1440px;
+    margin: auto;
+    padding: 28px 42px;
+}
+
+.brand-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-plane {
+    font-size: 42px;
+    transform: rotate(-12deg);
+}
+
+.brand-title {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.brand-country {
+    margin-top: 2px;
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+.hero-text {
+    margin-top: 25px;
+}
+
+.hero-text h1 {
+    margin: 0;
+
+    font-size: 31px;
+    line-height: 1.16;
+
+    letter-spacing: -1px;
+}
+
+.hero-text p {
+    margin-top: 12px;
+
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.hero-date {
+    position: absolute;
+    right: 42px;
+    top: 22px;
+
+    z-index: 5;
+
+    display: flex;
+    gap: 7px;
+
+    font-size: 12px;
+}
+
+.hero-wave {
+    position: absolute;
+
+    left: -5%;
+    bottom: -80px;
+
+    width: 110%;
+    height: 140px;
+
+    background: var(--background);
+
+    border-radius: 50% 50% 0 0 / 70% 70% 0 0;
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.dashboard {
+    max-width: 1380px;
+
+    margin: -2px auto 0;
+
+    padding:
+        22px
+        30px
+        60px;
+}
+
+
+/* =========================================================
+   TOP INDEX
+========================================================= */
+
+.top-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.7fr)
+        minmax(0, 1fr);
+
+    gap: 18px;
+}
+
+
+.index-panel,
+.fairness-panel {
+    position: relative;
+
+    min-height: 190px;
+
+    border-radius: 13px;
+
+    border: 1px solid var(--border);
+
+    overflow: hidden;
+
+    padding: 25px;
+
+    background: white;
+}
+
+.index-panel {
+    background:
+        linear-gradient(
+            110deg,
+            #edf8ff,
+            #ffffff 55%,
+            #f1edff
+        );
+}
+
+.index-watermark {
+    position: absolute;
+
+    right: 45px;
+    top: 20px;
+
+    font-size: 100px;
+
+    opacity: 0.07;
+
+    transform: rotate(-10deg);
+}
+
+.panel-icon {
+    position: absolute;
+
+    left: 22px;
+    top: 24px;
+
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 23px;
+}
+
+.panel-icon.blue {
+    background: #dcefff;
+    color: #1677ed;
+}
+
+.panel-icon.green {
+    background: #d9f7ee;
+    color: #069d77;
+}
+
+.panel-content {
+    margin-left: 62px;
+}
+
+.small-title {
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.07em;
+
+    color: #1e3970;
+}
+
+.index-row {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    margin-top: 8px;
+}
+
+.big-index {
+    font-size: 54px;
+
+    font-weight: 800;
+
+    line-height: 1;
+
+    letter-spacing: -2px;
+}
+
+.index-change {
+    font-size: 20px;
+
+    font-weight: 800;
+
+    color: var(--green);
+}
+
+.base-text {
+    font-size: 13px;
+
+    margin-top: 4px;
+
+    color: #244986;
+}
+
+.base-period {
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    color: var(--muted);
+}
+
+.index-message {
+    position: absolute;
+
+    left: 25px;
+    right: 25px;
+    bottom: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 12px;
+
+    color: #195ba9;
+}
+
+.trend-icon {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+
+/* FAIRNESS */
+
+.fairness-panel {
+    background:
+        linear-gradient(
+            135deg,
+            #effcf8,
+            #ffffff
+        );
+}
+
+.fairness-content {
+    margin-left: 62px;
+}
+
+.fairness-row {
+    display: flex;
+    align-items: center;
+
+    gap: 4px;
+
+    margin-top: 7px;
+}
+
+.fairness-number {
+    font-size: 43px;
+
+    font-weight: 800;
+}
+
+.out-of {
+    font-size: 17px;
+
+    color: #3c5d91;
+}
+
+.fairness-badge {
+    margin-left: auto;
+
+    padding: 8px 14px;
+
+    border-radius: 20px;
+
+    background: #d9f7ed;
+
+    color: #078c68;
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+.fairness-content p {
+    margin-top: 7px;
+
+    font-size: 12px;
+
+    color: #2d507e;
+}
+
+.fairness-note {
+    position: absolute;
+
+    bottom: 17px;
+    left: 25px;
+    right: 25px;
+
+    display: flex;
+
+    gap: 9px;
+
+    padding: 10px;
+
+    border-radius: 9px;
+
+    background: rgba(255,255,255,0.65);
+
+    border: 1px solid #d7eee7;
+
+    font-size: 11px;
+
+    color: #2d507e;
+}
+
+
+/* =========================================================
+   KPI
+========================================================= */
+
+.kpi-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-top: 16px;
+}
+
+.kpi-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    min-height: 105px;
+
+    padding: 17px;
+
+    border-radius: 10px;
+
+    border: 1px solid var(--border);
+
+    background: white;
+}
+
+.kpi-icon {
+    width: 43px;
+    height: 43px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-weight: 800;
+
+    font-size: 20px;
+}
+
+.blue-icon {
+    background: #e3f2ff;
+    color: #1677ed;
+}
+
+.purple-icon {
+    background: #eee9ff;
+    color: #7065e8;
+}
+
+.green-icon {
+    background: #def8ef;
+    color: #0da47c;
+}
+
+.orange-icon {
+    background: #fff1dc;
+    color: #ef941f;
+}
+
+.kpi-title {
+    font-size: 11px;
+
+    color: #24509a;
+
+    font-weight: 700;
+}
+
+.kpi-value {
+    font-size: 25px;
+
+    font-weight: 800;
+
+    margin-top: 3px;
+}
+
+.kpi-sub {
+    font-size: 10px;
+
+    color: var(--muted);
+
+    margin-top: 2px;
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.section-card {
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    margin-top: 16px;
+
+    padding: 18px;
+
+    box-shadow:
+        0 2px 8px
+        rgba(20, 52, 90, 0.025);
+}
+
+.section-heading {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    margin-bottom: 18px;
+}
+
+.section-heading-left {
+    display: flex;
+
+    gap: 11px;
+
+    align-items: flex-start;
+}
+
+.section-round-icon {
+    width: 35px;
+    height: 35px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #e8f4ff;
+
+    color: #1677ed;
+}
+
+.section-card h2 {
+    margin: 0;
+
+    font-size: 17px;
+
+    letter-spacing: -0.4px;
+}
+
+.section-card p {
+    margin: 5px 0 0;
+
+    font-size: 11px;
+
+    color: var(--muted);
+}
+
+
+/* =========================================================
+   WINDOW BUTTONS
+========================================================= */
+
+.window-selector {
+    display: flex;
+
+    gap: 6px;
+
+    flex-wrap: wrap;
+}
+
+.window-btn {
+    border: 1px solid #dbe5f0;
+
+    background: #f6f9fc;
+
+    color: #62738e;
+
+    padding: 8px 12px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    transition: 0.2s;
+}
+
+.window-btn:hover {
+    border-color: #a9c8e9;
+
+    color: #1677ed;
+}
+
+.window-btn.active {
+    background: #176fe0;
+
+    color: white;
+
+    border-color: #176fe0;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 760px;
+}
+
+thead {
+    background: #f4f8fc;
+}
+
+th {
+    text-align: left;
+
+    padding: 12px;
+
+    font-size: 10px;
+
+    color: #60718b;
+
+    letter-spacing: 0.05em;
+}
+
+td {
+    padding: 12px;
+
+    border-bottom: 1px solid #edf2f7;
+
+    font-size: 12px;
+
+    color: #203e70;
+}
+
+td:first-child {
+    font-weight: 700;
+}
+
+.loading {
+    text-align: center;
+
+    color: var(--muted);
+
+    padding: 25px;
+}
+
+.fairness-pill {
+    display: inline-block;
+
+    min-width: 72px;
+
+    text-align: center;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
+.fair-good {
+    background: #ddf8ed;
+    color: #078c68;
+}
+
+.fair-mid {
+    background: #fff1d9;
+    color: #b97800;
+}
+
+.fair-low {
+    background: #ffe3e6;
+    color: #d83c4a;
+}
+
+.status {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.status.fair {
+    background: #e0f7ee;
+    color: #078c68;
+}
+
+.status.high {
+    background: #fff1db;
+    color: #b87500;
+}
+
+.status.overpriced {
+    background: #ffe4e7;
+    color: #d73c4a;
+}
+
+
+/* =========================================================
+   CHARTS
+========================================================= */
+
+.two-column {
+    display: grid;
+
+    grid-template-columns:
+        1.2fr 0.8fr;
+
+    gap: 16px;
+}
+
+.two-column .section-card {
+    margin-top: 16px;
+}
+
+.chart-heading {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    margin-bottom: 10px;
+}
+
+.chart-heading h2 {
+    margin: 0;
+
+    font-size: 16px;
+}
+
+.legend {
+    display: flex;
+
+    gap: 12px;
+
+    font-size: 10px;
+
+    color: #64748b;
+}
+
+.legend span {
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+
+    display: inline-block;
+
+    border-radius: 50%;
+}
+
+.dot.current {
+    background: #1677ed;
+}
+
+.dot.base {
+    background: #9b8ff1;
+}
+
+.chart-box {
+    position: relative;
+
+    height: 270px;
+}
+
+.small-chart {
+    height: 230px;
+}
+/* =========================================================
+   INDIA AIRFARE WEATHER
+========================================================= */
+
+.airfare-weather-card {
+    margin-top: 16px;
+
+    min-height: 270px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff 0%,
+            #f8fbff 55%,
+            #f2f8ff 100%
+        );
+
+    border: 1px solid var(--border);
+
+    box-shadow:
+        0 4px 18px rgba(20, 52, 90, 0.045);
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+
+/* subtle background decoration */
+
+.airfare-weather-card::after {
+    content: "☁";
+
+    position: absolute;
+
+    right: -10px;
+    bottom: -28px;
+
+    font-size: 150px;
+
+    opacity: 0.035;
+
+    pointer-events: none;
+}
+
+
+/* HEADER */
+
+.weather-card-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+
+.weather-title-group {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+}
+
+
+.weather-title-icon {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background: #e6f2ff;
+
+    color: #1677ed;
+
+    font-size: 18px;
+}
+
+
+.weather-card-header h2 {
+    margin: 0;
+
+    font-size: 17px;
+
+    letter-spacing: -0.4px;
+}
+
+
+.weather-card-header p {
+    margin: 4px 0 0;
+
+    font-size: 11px;
+
+    color: var(--muted);
+}
+
+
+/* STATUS */
+
+.weather-status {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 7px 11px;
+
+    border-radius: 20px;
+
+    background: #e2f8ee;
+
+    color: #078c68;
+
+    border: 1px solid #c8eee0;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+
+/* MAIN CONDITION */
+
+.weather-main {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 15px 16px;
+
+    border-radius: 11px;
+
+    background: rgba(255, 255, 255, 0.72);
+
+    border: 1px solid #e1ebf5;
+}
+
+
+.weather-icon {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #e7f9f1;
+
+    font-size: 29px;
+
+    box-shadow:
+        0 4px 12px rgba(18, 165, 121, 0.08);
+}
+
+
+.weather-condition {
+    min-width: 0;
+}
+
+
+.weather-label {
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.09em;
+
+    color: #71809a;
+
+    margin-bottom: 3px;
+}
+
+
+.weather-condition-text {
+    font-size: 21px;
+
+    font-weight: 800;
+
+    letter-spacing: -0.5px;
+
+    color: #17345f;
+}
+
+
+.weather-description {
+    margin-top: 3px;
+
+    font-size: 10px;
+
+    line-height: 1.45;
+
+    color: #71809a;
+}
+
+
+/* STAT GRID */
+
+.weather-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 9px;
+
+    margin-top: 12px;
+}
+
+
+.weather-stat {
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    min-height: 72px;
+
+    padding: 11px 12px;
+
+    border-radius: 9px;
+
+    background: white;
+
+    border: 1px solid #e3ebf4;
+}
+
+
+.weather-stat-label {
+    font-size: 9px;
+
+    line-height: 1.3;
+
+    color: #71809a;
+
+    font-weight: 600;
+}
+
+
+.weather-stat strong {
+    margin-top: 5px;
+
+    font-size: 19px;
+
+    line-height: 1;
+
+    color: #193966;
+
+    font-weight: 800;
+}
+
+
+.weather-stat small {
+    margin-top: 4px;
+
+    font-size: 8px;
+
+    color: #9aa7b7;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1050px) {
+
+    .weather-stats {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .weather-card-header {
+        flex-direction: column;
+    }
+
+    .weather-main {
+        align-items: flex-start;
+    }
+
+    .weather-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+/* =========================================================
+   THREE COLUMN
+========================================================= */
+
+.three-column {
+    display: grid;
+
+    grid-template-columns:
+        1.05fr
+        1.1fr
+        0.8fr;
+
+    gap: 16px;
+}
+
+.three-column .section-card {
+    margin-top: 16px;
+}
+
+
+/* =========================================================
+   FLIGHT LIST
+========================================================= */
+
+.flight-list {
+    margin-top: 7px;
+}
+
+.flight-row {
+    display: grid;
+
+    grid-template-columns:
+        0.8fr
+        0.9fr
+        0.8fr
+        0.7fr;
+
+    gap: 7px;
+
+    align-items: center;
+
+    padding: 9px 0;
+
+    border-bottom: 1px solid #edf2f7;
+
+    font-size: 10px;
+}
+
+.flight-airline {
+    font-weight: 700;
+}
+
+.flight-route {
+    color: #496789;
+}
+
+.flight-fare {
+    font-weight: 800;
+}
+
+.flight-time {
+    color: #8a98aa;
+    text-align: right;
+}
+
+
+/* =========================================================
+   ANOMALIES
+========================================================= */
+
+.anomaly-card {
+    background:
+        linear-gradient(
+            135deg,
+            #fffafa,
+            #ffffff
+        );
+}
+
+.anomaly-row {
+    padding: 9px 0;
+
+    border-bottom: 1px solid #f3e7e8;
+}
+
+.anomaly-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.anomaly-route {
+    color: #b43644;
+}
+
+.anomaly-fare {
+    color: #d73c4a;
+}
+
+.anomaly-detail {
+    margin-top: 4px;
+
+    font-size: 9px;
+
+    color: #8c6d72;
+}
+
+
+/* =========================================================
+   METHODOLOGY
+========================================================= */
+
+.methodology {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 30px;
+
+    margin-top: 16px;
+
+    padding: 24px;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            115deg,
+            #edf7ff,
+            #f8f5ff
+        );
+
+    border: 1px solid #dce8f5;
+}
+
+.methodology h2 {
+    margin: 6px 0;
+
+    font-size: 21px;
+}
+
+.methodology p {
+    max-width: 690px;
+
+    margin: 0;
+
+    font-size: 11px;
+
+    line-height: 1.7;
+
+    color: #657793;
+}
+
+.method-flow {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    font-size: 10px;
+
+    color: #49678f;
+}
+
+.method-flow span,
+.method-flow strong {
+    padding: 8px 10px;
+
+    border-radius: 7px;
+
+    background: white;
+
+    border: 1px solid #d9e4f0;
+}
+
+.method-flow strong {
+    background: #176fe0;
+
+    color: white;
+
+    border-color: #176fe0;
+}
+
+.method-flow b {
+    color: #94a5ba;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    display: flex;
+
+    gap: 14px;
+
+    padding: 20px 35px;
+
+    background: white;
+
+    border-top: 1px solid var(--border);
+
+    color: #52709a;
+
+    font-size: 11px;
+}
+
+.footer-right {
+    margin-left: auto;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .top-grid,
+    .two-column {
+        grid-template-columns: 1fr;
+    }
+
+    .three-column {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .methodology {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+}
+
+
+@media (max-width: 750px) {
+
+    .hero-content {
+        padding: 22px;
+    }
+
+    .hero-date {
+        display: none;
+    }
+
+    .hero-text h1 {
+        font-size: 25px;
+    }
+
+    .dashboard {
+        padding: 15px;
+    }
+
+    .kpi-grid {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .three-column {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading {
+        flex-direction: column;
+    }
+
+    .big-index {
+        font-size: 43px;
+    }
+
+    footer {
+        flex-wrap: wrap;
+    }
+
+    .footer-right {
+        margin-left: 0;
+    }
+}
