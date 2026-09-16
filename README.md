@@ -3,43 +3,46 @@
 ### Development of a Real-time Airfare Price Index for India through Automated Web Scraping of Airline and Online Travel Aggregator Portals for Augmentation of the Consumer Price Index (CPI)
 
 > **Smart India Hackathon 2026 — Problem Statement SIH26056**
+> Theme: Smart Automation · Category: Software · Team: HackHive (Team ID 60180)
+
+**Live demo:** [sih-26056-airfare-price-index.vercel.app](https://sih-26056-airfare-price-index.vercel.app)
 
 ---
 
-# 📌 Overview
+## 📌 Overview
 
-Airfare prices in India are highly dynamic.
+Airfare prices in India are highly dynamic. The price of the same route can change depending on the airline, route, travel date, booking date, days remaining before departure, fare class, fare family, seat availability, taxes and fees, and general market conditions.
 
-The price of the same route can change depending on:
-
-- Airline
-- Route
-- Travel date
-- Booking date
-- Days remaining before departure
-- Fare class
-- Fare family
-- Availability
-- Taxes and fees
-- Market conditions
-
-Traditional flight-search platforms primarily answer:
-
+Traditional flight-search platforms only answer:
 > **"What is the current price of this flight?"**
 
-This project attempts to answer a broader question:
-
-> **"How are domestic airfare prices changing across routes, airlines and booking windows?"**
+This project answers a broader question:
+> **"How are domestic airfare prices changing across routes, airlines and booking windows — and is today's fare actually a fair one?"**
 
 The system collects and standardizes airfare observations, stores them in a structured database, performs data-quality checks and anomaly detection, calculates route-level and aggregate airfare indices, evaluates fare fairness, and presents the results through a web dashboard.
 
-The current implementation is a **prototype analytical system using controlled/sample airfare data**. The architecture is designed to support authorized airline, OTA, or other permitted airfare data sources in a production deployment.
+The current implementation is a **prototype analytical system running on controlled/sample airfare data**. The architecture is designed so authorized airline, OTA, or other permitted airfare data sources can be plugged in for a production deployment.
 
 ---
 
-# 🎯 Objectives
+## 💡 Core Idea
 
-The project aims to:
+| Typical flight platform | Our system |
+|---|---|
+| Flight → Price → Booking | Price → Typical → Fairness → Index |
+
+Instead of just showing *a* price, the system compares every observed fare against a **typical fare** for that route and booking window, and turns the comparison into a **0–100 Fare Fairness Score** plus a standardized **price index** (base period = 100).
+
+**Example — Fare Fairness in one glance**
+
+| Route | Current fare | Typical fare | Fairness score | Verdict |
+|---|---|---|---|---|
+| DEL → BOM | ₹7,200 | ₹5,100 | 38 / 100 | ⚠️ Unusually expensive |
+| BOM → DEL | ₹4,700 | ₹5,100 | 87 / 100 | ✅ Fair |
+
+---
+
+## 🎯 Objectives
 
 1. Collect standardized airfare observations.
 2. Normalize airfare data from different sources.
@@ -48,18 +51,217 @@ The project aims to:
 5. Detect unusual airfare movements.
 6. Analyze prices across different booking windows.
 7. Calculate route-level airfare indices.
-8. Calculate an aggregate airfare price index.
+8. Calculate an aggregate national airfare price index.
 9. Compare current fares with typical/reference fares.
 10. Generate a Fare Fairness Score.
-11. Generate an Airfare Weather indicator.
+11. Generate an "Airfare Weather" indicator.
 12. Provide high-frequency airfare intelligence.
 13. Explore how an airfare indicator could support future CPI augmentation research.
 
 ---
 
-# 💡 Core Idea
+## 🌟 Novelty / Innovation
 
-Instead of treating an airfare as just:
+- **Fare Fairness Score** — a 0–100 score that tells whether a fare is unusually high or relatively fair, instead of showing a bare price.
+- **High-Frequency Index** — converts thousands of airfare observations into a standardized market indicator, refreshed continuously rather than once a season.
+- **Booking-Window Intelligence** — compares airfare behaviour across different booking windows (1, 7, 15, 30, 45 days before departure) instead of a single snapshot.
+- **Data-Quality Intelligence** — cleans unreliable observations and flags unusual fare movements using statistical (Z-score) anomaly detection before they reach the index.
 
-```text
-Flight → Price → Booking
+---
+
+## 🏗️ Technical Architecture
+
+```
+ Data Sources (Airline / OTA portals, sample generator)
+        │
+        ▼
+ Collection Layer  →  Cleaning & Validation  →  Anomaly Detection (Z-score)
+        │
+        ▼
+ SQLite Database (sources, routes, observations, collection_runs, index_data)
+        │
+        ▼
+ Index Calculator (Laspeyres · Paasche · Fisher, geometric-mean price relatives)
+        │
+        ▼
+ FastAPI REST API
+        │
+        ▼
+ Web Dashboard (HTML / CSS / JavaScript / Chart.js)
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Frontend** | HTML, CSS, JavaScript, Chart.js |
+| **Backend** | Python, FastAPI, REST APIs |
+| **Data & Analytics** | Python, SQLite3, Jevons / Laspeyres / Paasche / Fisher index methods, Z-score anomaly detection |
+| **Storage & Deployment** | SQLite (local prototype) → Cloud deployment (future) |
+
+---
+
+## 📂 Repository Structure
+
+```
+.
+├── api.py                 # FastAPI backend — all REST endpoints
+├── index_calculator.py    # Computes Laspeyres/Paasche/Fisher indices from observations
+├── seed_data.py           # Generates sample/prototype airfare observations
+├── schema.sql             # SQLite schema (sources, routes, observations, collection_runs, index_data)
+├── airfare.db             # SQLite database (prototype data, generated by seed_data.py)
+├── index.html             # Dashboard markup
+├── style.css              # Dashboard styling
+├── app.js                 # Dashboard logic — fetches API data and renders charts
+└── README.md
+```
+
+---
+
+## 🗄️ Data Model
+
+The SQLite schema (`schema.sql`) defines five tables:
+
+- **`sources`** — data providers (airline portal, OTA portals, etc.)
+- **`routes`** — origin/destination pairs with an index weight (e.g. `DEL-BOM`, weight `0.18`)
+- **`observations`** — individual fare observations: airline, flight number, travel/booking date, days to departure, fare class, base fare, taxes, total fare, duration, stops, source, etc. A unique index prevents duplicate observations.
+- **`collection_runs`** — metadata/logging for each data-collection run
+- **`index_data`** — computed index values per period, route, and booking window (`price_index`, `laspeyres_index`, `paasche_index`, `fisher_index`)
+
+---
+
+## 📐 Index Methodology
+
+`index_calculator.py` computes the airfare index as follows:
+
+1. For each route and each booking window (1 / 7 / 15 / 30 / 45 days to departure), the **geometric mean** of observed total fares on the earliest available date is set as the **base price**.
+2. For every subsequent date, the geometric mean fare is expressed as a **price relative** to that base price (base period = 100).
+3. Route-level relatives are aggregated into a national index using route weights (from `routes.weight`) via:
+   - **Laspeyres index** — base-weighted average of price relatives
+   - **Paasche index** — current-weighted average of price relatives (CES-style with an elasticity parameter)
+   - **Fisher index** — geometric mean of Laspeyres and Paasche (the headline `overall_index`)
+4. Booking windows themselves are weighted for reporting: 1-day (30%), 7-day (25%), 15-day (20%), 30-day (15%), 45-day (10%).
+
+Results are written to `index_data`, which the API and dashboard read from.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Python 3.9+
+- `pip`
+
+### 1. Install dependencies
+
+```bash
+pip install fastapi uvicorn
+```
+
+### 2. Create and seed the database
+
+```bash
+sqlite3 airfare.db < schema.sql
+python seed_data.py
+```
+
+This generates ~30 days of sample observations across 10 domestic routes, 3 airlines, and 5 booking windows.
+
+### 3. Calculate the airfare index
+
+```bash
+python index_calculator.py
+```
+
+This populates the `index_data` table with Laspeyres, Paasche and Fisher indices for every date, route, and booking window.
+
+### 4. Run the API
+
+```bash
+uvicorn api:app --reload
+```
+
+The API serves on `http://127.0.0.1:8000` by default, with interactive docs at `http://127.0.0.1:8000/docs`.
+
+### 5. Open the dashboard
+
+Open `index.html` in a browser (or serve the folder with any static server). `app.js` calls the API endpoints below and renders the charts.
+
+> If you change the API host/port, update the base URL used in `app.js` accordingly.
+
+---
+
+## 📡 API Reference
+
+All endpoints are served under `/api` and return JSON. CORS is open to all origins for the prototype.
+
+| Endpoint | Description |
+|---|---|
+| `GET /api/health` | Service health check — DB name, observation and route counts |
+| `GET /api/index/current?window=` | Latest national Fisher/Laspeyres/Paasche index for a booking window (`1,7,15,30,45`) |
+| `GET /api/index/history?window=&limit=` | Historical index series for a booking window |
+| `GET /api/index/booking-window-effect` | Average fare and observation count per booking window, with % change vs. the longest window |
+| `GET /api/index/booking-window-effect/route?route_id=` | Same, broken down per route |
+| `GET /api/index/booking-window-weights` | The fixed weighting scheme used across booking windows |
+| `GET /api/routes` | All routes with origin, destination and index weight |
+| `GET /api/routes/index?window=` | Per-route index values plus base/current average price |
+| `GET /api/observations?limit=&window=` | Raw fare observations, optionally filtered by booking window |
+| `GET /api/observations/latest?limit=` | Most recently collected observations |
+| `GET /api/flights?limit=` | Flight-level observation details (airline, timings, baggage, fare family, booking URL, etc.) |
+| `GET /api/anomalies?window=&limit=` | Routes with the largest fare swings between the base and latest observation date for a booking window |
+| `GET /api/airfare-weather?window=` | Aggregate "airfare weather" indicator — average change, volatility, and anomaly count for a booking window |
+
+---
+
+## 📊 Feasibility, Scalability & Roadmap
+
+**Roadmap:** ① Prototype → ② Data Pipeline → ③ Fairness + Anomaly Detection → ④ Airfare Index → ⑤ Web Dashboard → ⑥ Production Expansion
+
+**Feasibility**
+- Python-based processing handles thousands of airfare observations efficiently.
+- Modular architecture: Collector → Database → API → Dashboard.
+- Statistical methodology built on the Fisher Index and Z-score anomaly detection.
+- Prototype-ready: runs entirely locally with SQLite and FastAPI.
+
+**Scalability**
+- Expand to more routes, airlines and travel dates.
+- Automate and schedule authorized data ingestion.
+- Move database and processing to cloud infrastructure.
+- Integrate permitted airline / OTA production data sources.
+
+**Key challenges & mitigations**
+
+| Challenge | Approach |
+|---|---|
+| Dynamic, fast-changing fares | Frequent, high-frequency data collection |
+| Duplicate data | Deduplication (unique constraint on observation keys) |
+| Missing / inconsistent data | Validation & normalization at ingestion |
+| Extreme price values | Statistical (Z-score) anomaly detection |
+| Data-source restrictions | Use only authorized/permitted sources in production |
+
+---
+
+## 📚 Research & References
+
+**Supporting research papers**
+- Dutta & Santra (2016) — airfare pricing / airline fare behaviour research
+- Mathur (2020) — airfare pricing / dynamic fare analysis
+
+**Data sources**
+- Google Flights — flight route, date and fare reference
+- Python / FastAPI / SQLite documentation — implementation technologies
+
+---
+
+## ⚠️ Disclaimer
+
+This is a **prototype built for Smart India Hackathon 2026** using sample/synthetic airfare data (`seed_data.py`). It does not scrape or store data from any live airline or OTA platform. Any production deployment must use only authorized, permitted airfare data sources in compliance with each source's terms of service.
+
+---
+
+## 👥 Team
+
+**HackHive** — Team ID 60180
